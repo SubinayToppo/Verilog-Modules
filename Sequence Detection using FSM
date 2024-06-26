@@ -1,0 +1,66 @@
+//Sequence detection for either "1001" or "1010" using FSM
+
+ module seqdet(
+    input i, clk,
+    output reg y
+    );
+
+ localparam [2:0]
+			a = 3'b000,
+			b = 3'b001,
+			c = 3'b010,
+			d = 3'b011,
+			e = 3'b100,
+			f = 3'b101;
+			
+			//Internal Registers as Temp variabls
+			reg[2:0] state_reg,state_next;
+			initial begin
+			state_reg = 0;			//Initializing state_reg to zero
+			state_next = 0;
+			y = 0;
+			end
+			
+			always@(posedge clk)
+			         begin
+			         if(state_next == f) y <= 1;
+			         else y <= 0;
+					 state_reg <= state_next;
+			end
+			
+			always@*
+			        begin
+					case(state_reg)
+						a:
+							if(i)
+								state_next <= b;
+							else
+								state_next <= a;
+						b:
+							if(i)
+								state_next <= b;
+							else
+								state_next <= c;
+						c:
+							if(i)
+								state_next <= e;
+							else
+								state_next <= d;
+						d:
+							if(i)
+								state_next <= f ;
+							else
+								state_next <= a;
+						e:
+							if(i)
+								state_next <= b;
+							else
+								state_next <= f;
+						f:
+							if(i)
+								state_next <= b;
+							else
+								state_next <= a;
+					endcase
+				end
+		 endmodule
