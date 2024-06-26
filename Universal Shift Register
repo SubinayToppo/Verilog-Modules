@@ -18,7 +18,12 @@ always @(s1,s0,q,i,sinr,sinl) begin
             d[2:0] <= q[3:1];
             d[3] <= sinl;
             end
-        2'b11: d <= i; //parallel loading   
+        2'b11: begin  //parallel loading
+            d[0] = i[3];
+            d[1] = i[2];
+            d[2] = i[1];
+            d[3] = i[0];
+            end    
     endcase
  end
     
