@@ -1,0 +1,30 @@
+//Arithmetic and Logic Unit (ALU)
+
+module alu(output reg [7:0]q,output reg carryout,input [3:0]a,b,input [2:0]opcodes,input carryin);
+
+// a and b are the operands.ALU has 8 opcodes and will perfoem 8 operations as follows:
+//opcode 000 addition
+//       001 addition (a+1)
+//       010 subtraction (a-b)
+//       011 multiplication
+//       100 bitwise AND
+//       101 bitwise OR
+//       110 bitwise XOR
+//       111 bitwise NOT a
+always @* begin
+    carryout = 0;
+    case (opcodes)
+        3'b000: begin //addition
+            q = a+b+carryin;
+            carryout = q[4];
+            end
+        3'b001:q = a+1'b1; //addition (a+1)
+        3'b010:q = a-b; //subtarction (a-b)
+        3'b011:q = a*b; //multiplication
+        3'b100:q = a&b; //bitwise AND
+        3'b101:q = a|b; //bitwise OR
+        3'b110:q = a^b; //bitwise XOR
+        3'b111:q = ~a; //bitwise NOT a
+    endcase
+ end
+endmodule
