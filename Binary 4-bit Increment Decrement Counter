@@ -1,0 +1,29 @@
+//Binary 4-bit increment decrement counter
+
+module inc_dec_counter(
+    output reg [3:0]q,reg maxed,
+    input inc, dec, reset
+    );
+    
+initial begin
+    q = 4'b0000;
+end
+ 
+ always@*
+    begin
+    if (reset==1) q = 4'b0000; //resets to count 0
+    else if (q == 4'b1111) begin
+        maxed = 1; //a signal which shows max count has been reached
+        q = q;
+        end
+    else if (inc) q = q + 4'b0001; //increment of count
+    else if (dec) q = q - 4'b0001; //decrement of count
+    else q = q;
+  end
+endmodule
+    
+    
+    
+     
+    
+   
