@@ -1,0 +1,30 @@
+//Universal Shift Register (USF)
+
+module usf(output [3:0]q,input [3:0]i,input s1,s0,sinr,sinl,clk,reset);
+
+// inputs i are for parallel loading, sinr is serial-in right shift and sinl is serial-in left shift
+
+reg [3:0]d;
+
+//modes of the universal shift register
+always @(s1,s0,q,i,sinr,sinl) begin
+    case ({s1, s0})
+        2'b00: d <= q; //no change
+        2'b01: begin  //right shift
+            d[3:1] <= q[2:0];
+            d[0] <= sinr;
+            end
+        2'b10: begin  //left shift
+            d[2:0] <= q[3:1];
+            d[3] <= sinl;
+            end
+        2'b11: d <= i; //parallel loading   
+    endcase
+ end
+    
+dff f0(q[0],d[0],clk,reset); //instantiate D flip-flops
+dff f1(q[1],d[1],clk,reset);
+dff f2(q[2],d[2],clk,reset);
+dff f3(q[3],d[3],clk,reset);
+   
+endmodule
